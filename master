@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+gh=timm
+
 help() { 
   tput bold; tput setaf 3
   cat<<EOF
@@ -44,18 +46,19 @@ here() { cd $1; basename `pwd`; }
 
 PROMPT_COMMAND='echo -ne "🌏 $(git branch 2>/dev/null | grep '^*' | colrm 1 2):";PS1="$(here ..)/$(here .):\!\e[m ▶ "'
 
-want=$ZenTmp/dotvimrc; [ -f "$want" ] || (cat $Zen/dotvimrc > $want)
-want=$ZenTmp/dottmux;  [ -f "$want" ] || (cat $Zen/dottmux > $want)
-want=.gitignore;       [ -f "$want" ] || (cat $Zen/dotgitignore > $want)
-want=docs/.nojeykll;   [ -f "$want" ] || touch $want
+want=$ZenTmp/dotvimrc;        [ -f "$want" ] || (cat $Zen/dotvimrc > $want)
+want=$ZenTmp/dottmux;         [ -f "$want" ] || (cat $Zen/dottmux > $want)
+want=$HOME/.gitignore_global; [ -f "$want" ] || (cat $Zen/dotgitignore > $want)
+want=docs/.nojeykll;          [ -f "$want" ] || touch $want
 
-git add $want .gitignore 
+git add docs/.nojeykll
+git config --global core.excludesfile $HOME/.gitignore_global
+git config --global pull.rebase false
 
 for p in pdoc3 ; do
   (pip3 list | grep $p > /dev/null) || sudo pip3 install $p
 done
 
-git config --global pull.rebase false
 
 hello() { tput bold; tput setaf 3; cat<<'EOF'
  ________                      
@@ -68,15 +71,21 @@ hello() { tput bold; tput setaf 3; cat<<'EOF'
 EOF
    tput sgr0
 }
+Zens=$PYTHONPATH
+for d in $Zen/../*; do
+  if [ -d "$d" ] && [[ ":$Zens:" != *":$d:"* ]]; then Zens="$d:$Zens"; fi; done
+
+alias python="PYTHONPATH=\"$Zens\" python3 "
+
 master() {
   com=$1; shift
   [[ "$com" == "-h" ]] &&  help
   if [[ "$com" == "-I" ]]; then
-    color installing zen
     for d in $*; do
       if [[ ! -d "../$d" ]]; then
         color installing $d
-        git clone http://$web/$d ../$d
+        echo git clone http://github.com/$gh/$d ../$d
+        git clone http://github.com/$gh/$d ../$d
       fi; done
   elif [[ "$com" == "-u" ]]; then
   	for d in $Zen/../*; do
@@ -88,6 +97,7 @@ master() {
       fi
     done
     rm -rf $ZenTmp/*
+    rm -f $HOME/.gitignore_global
     . $Zen/master
   elif [[ "$com" == "-S" ]]; then
   	for d in $Zen/../*; do
