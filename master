@@ -24,6 +24,7 @@ Zen=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
 ZenTmp=$HOME/tmp/zen
 
 mkdir -p $ZenTmp
+mkdir -p $Zen/docs
 chmod +x $Zen/master
 
 alias ls="ls -G"
@@ -34,8 +35,8 @@ alias zen="./zen "
 
 docs() { 
    f=${1%.*}
-   (pdoc3 --config sort_identifiers=False -o .  --force --html $f.py > /dev/null
-   mv $f.html index.html)
+   (pdoc3 --config sort_identifiers=False -o docs  --force --html $f.py > /dev/null
+   mv docs/$f.html docs/index.html)
 }
 color() { tput bold; tput setaf 3; echo "$*"; tput sgr0; }
 
@@ -47,6 +48,8 @@ want=.gitignore;       [ -f "$want" ] || (cat $Zen/dotgitignore > $want)
 want=.nojeykll;        [ -f "$want" ] || touch $want
 want=$ZenTmp/dotvimrc; [ -f "$want" ] || (cat $Zen/dotvimrc > $want)
 want=$ZenTmp/dottmux;  [ -f "$want" ] || (cat $Zen/dottmux > $want)
+
+git add .gitignore .nojeykyll
 
 for p in pdoc3 ; do
   (pip3 list | grep $p > /dev/null) || sudo pip3 install $p
