@@ -1,4 +1,3 @@
-[[ -f "$want" ]] || cat<<'EOF'> $want
 set list
 set listchars=tab:>-
 set backupdir-=.
