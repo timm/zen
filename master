@@ -85,7 +85,7 @@ master() {
       fi
     done
     rm -rf $ZenTmp/*
-    . $Zen/zen
+    . $Zen/master
   elif [[ "$com" == "-S" ]]; then
   	for d in $Zen/../*; do
       echo $d
