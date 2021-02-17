@@ -14,7 +14,7 @@ Zen=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
 ZenTmp=$HOME/tmp/zen
 
 mkdir -p $ZenTmp
-chmod +x $Zen/zen
+chmod +x $Zen/dot
 
 alias ls="ls -G"
 alias gp="git add *; git commit -am saving; git push; git status"
@@ -33,9 +33,12 @@ PROMPT_COMMAND='echo -ne "🌊 $(git branch 2>/dev/null | grep '^*' | colrm 1 2)
 
 want=$ZenTmp/dotvimrc; [ -f "$want" ] || (cat $Zen/dotvimrc > $want)
 want=$ZenTmp/dottmux;  [ -f "$want" ] || (cat $Zen/dottmux > $want)
-sudo pip3 install pdoc3
 
-zen() {
+for p in pdoc3 fred; do
+  (pip3 list | grep $p > /dev/null) || sudo pip3 install $p
+done
+
+master() {
   com=$1; shift
   [[ "$com" == "-h" ]] &&  help
   if [[ "$com" == "-I" ]]; then
@@ -54,7 +57,7 @@ zen() {
       )
     done
     rm -rf $ZenTmp/*
-    . $Zen/zen
+    . $Zen/dot
   elif [[ "$1" == "-S" ]]; then
   	for d in $*; do
   	  (cd ../$d; red stats $d;
