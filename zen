@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 help() { 
-  tput bold; tput setaf 6
+  tput bold; tput setaf 3
   cat<<EOF
 
 zen [OPTION]
@@ -36,7 +36,7 @@ docs() {
    (pdoc3 --config sort_identifiers=False -o .  --force --html $1.py
    mv $1.html index.html)
 }
-red() { tput bold; tput setaf 1; echo "$*"; tput sgr0; }
+color() { tput bold; tput setaf 3; echo "$*"; tput sgr0; }
 
 here() { cd $1; basename `pwd`; }
 
@@ -46,7 +46,7 @@ want=.gitignore;       [ -f "$want" ] || (cat $Zen/dotgitignore > $want)
 want=$ZenTmp/dotvimrc; [ -f "$want" ] || (cat $Zen/dotvimrc > $want)
 want=$ZenTmp/dottmux;  [ -f "$want" ] || (cat $Zen/dottmux > $want)
 
-for p in pdoc3 fred; do
+for p in pdoc3 ; do
   (pip3 list | grep $p > /dev/null) || sudo pip3 install $p
 done
 
@@ -67,16 +67,16 @@ master() {
   com=$1; shift
   [[ "$com" == "-h" ]] &&  help
   if [[ "$com" == "-I" ]]; then
-    red installing zen
+    color installing zen
     for d in $*; do
       if [[ ! -d "../$d" ]]; then
-        red installing $d
+        color installing $d
         git clone http://$web/$d ../$d
       fi; done
   elif [[ "$com" == "-u" ]]; then
   	for d in $Zen/../*; do
       if [ -d "$d" ]; then
-        (cd $d; red updating $d; git pull -q
+        (cd $d; color updating $d; git pull -q
         [[ -f .gitignore ]] || cat $Zen/dotgitignore > .gitignore
         git add .gitignore
         )
@@ -88,14 +88,16 @@ master() {
   	for d in $Zen/../*; do
       echo $d
       if [ -d "$d" ]; then
-    	  (cd $d; red stats $d;
+    	  (cd $d; color stats $d;
          git status); 
        fi
     done
+  elif [[ "$com" == "-d" ]]; then
+     docs $1
   elif [[ "$com" == "-s" ]]; then
   	for d in $Zen/../*; do
       if [ -d "$d" ]; then
-        (cd $d; red saving $d; 
+        (cd $d; color saving $d; 
          git add * ; git commit -am saving; git push -q); 
       fi
     done
@@ -105,7 +107,7 @@ master() {
            ~/.vim/bundle/Vundle.vim
      fi
      for d in $HOME/.vim/bundle/*; do
-       (cd $d; red updating vim $d; 
+       (cd $d; color updating vim $d; 
         git pull -q)
     done
     vim -u $ZenTmp/dotvimrc  +PluginInstall +qall
