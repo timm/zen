@@ -27,7 +27,7 @@ mkdir -p $ZenTmp
 chmod +x $Zen/zen
 
 alias ls="ls -G"
-alias gp="git add *; git commit -am saving -q; git push -q; git status -q"
+alias gp="git add *; git commit -am saving ; git push -q; git status -q"
 alias vi='vim -u $ZenTmp/dotvimrc'
 alias tmux='tmux -f $ZenTmp/dottmux'
 alias zen="./zen "
@@ -96,7 +96,7 @@ master() {
   	for d in $Zen/../*; do
       if [ -d "$d" ]; then
         (cd $d; red saving $d; 
-         git add * -q; git commit -am saving -q; git push -q); 
+         git add * ; git commit -am saving; git push -q); 
       fi
     done
   elif [[ "$com" == "-V" ]]; then
@@ -106,7 +106,7 @@ master() {
      fi
      for d in $HOME/.vim/bundle/*; do
        (cd $d; red updating vim $d; 
-        git pull)
+        git pull -q)
     done
     vim -u $ZenTmp/dotvimrc  +PluginInstall +qall
  fi
