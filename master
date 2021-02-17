@@ -16,7 +16,7 @@ options:
 EOF
 echo ""
 tput bold; tput setaf 241
-grep '^alias' $Zen/zen
+grep '^alias' $Zen/master
 tput sgr0
 }
 
@@ -24,7 +24,7 @@ Zen=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
 ZenTmp=$HOME/tmp/zen
 
 mkdir -p $ZenTmp
-chmod +x $Zen/zen
+chmod +x $Zen/master
 
 alias ls="ls -G"
 alias gp="git add *; git commit -am saving ; git push -q; git status"
