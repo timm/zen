@@ -24,7 +24,7 @@ Zen=$(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
 ZenTmp=$HOME/tmp/zen
 
 mkdir -p $ZenTmp
-mkdir -p $Zen/docs
+mkdir -p docs
 chmod +x $Zen/master
 
 alias ls="ls -G"
@@ -44,12 +44,12 @@ here() { cd $1; basename `pwd`; }
 
 PROMPT_COMMAND='echo -ne "🌏 $(git branch 2>/dev/null | grep '^*' | colrm 1 2):";PS1="$(here ..)/$(here .):\!\e[m ▶ "'
 
-want=.gitignore;       [ -f "$want" ] || (cat $Zen/dotgitignore > $want)
-want=.nojeykll;        [ -f "$want" ] || touch $want
 want=$ZenTmp/dotvimrc; [ -f "$want" ] || (cat $Zen/dotvimrc > $want)
 want=$ZenTmp/dottmux;  [ -f "$want" ] || (cat $Zen/dottmux > $want)
+want=.gitignore;       [ -f "$want" ] || (cat $Zen/dotgitignore > $want)
+want=docs/.nojeykll;   [ -f "$want" ] || touch $want
 
-git add .gitignore .nojeykyll
+git add $want .gitignore 
 
 for p in pdoc3 ; do
   (pip3 list | grep $p > /dev/null) || sudo pip3 install $p
