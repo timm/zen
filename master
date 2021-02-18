@@ -77,6 +77,10 @@ for d in $Zen/../*; do
 
 alias python="PYTHONPATH=\"$Zens\" python3 "
 
+o() {   printf "\n#-------\n%% "
+        echo "$@"
+        $@; }
+  
 master() {
   com=$1; shift
   [[ "$com" == "-h" ]] &&  help
