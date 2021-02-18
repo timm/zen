@@ -1,0 +1,6 @@
+--2021-02-17 20:22:37--  https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShmBKZqiCGGsUTgFEDpMgVKolR7CnvW3PbKw
+Resolving encrypted-tbn0.gstatic.com (encrypted-tbn0.gstatic.com)... 2607:f8b0:4002:c08::8b, 2607:f8b0:4002:c08::64, 2607:f8b0:4002:c08::71, ...
+Connecting to encrypted-tbn0.gstatic.com (encrypted-tbn0.gstatic.com)|2607:f8b0:4002:c08::8b|:443... connected.
+ERROR: cannot verify encrypted-tbn0.gstatic.com's certificate, issued by ‘CN=GTS CA 1O1,O=Google Trust Services,C=US’:
+  Unable to locally verify the issuer's authority.
+To connect to encrypted-tbn0.gstatic.com insecurely, use `--no-check-certificate'.
