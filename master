@@ -75,7 +75,7 @@ Zens=$PYTHONPATH
 for d in $Zen/../*; do
   if [ -d "$d" ] && [[ ":$Zens:" != *":$d:"* ]]; then Zens="$d:$Zens"; fi; done
 
-alias python="PYTHONPATH=\"$Zens\" python3 "
+export PYTHONPATH="$Zens"
 
 o() {   printf "\n#-------\n%% "
         echo "$@"
